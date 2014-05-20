@@ -1,0 +1,57 @@
+package Assignment2;
+import java.util.AbstractCollection;
+import java.util.ArrayList;
+
+import java.util.Iterator;
+
+/**
+ * Created by Parmeet on 3/3/14.
+ *
+ * Creates Heap Collection of Strings
+ */
+public abstract class Heap extends AbstractCollection{
+    private Node root;
+    private int count;
+    HeapBehaviour behaviour;
+
+    public Heap(HeapBehaviour behaviour) {
+        this.behaviour = behaviour;
+    }
+
+    public Heap() {
+    }
+
+    public boolean add(String data) {
+        Node newNode = new RealNode(data);
+        if (root == null)
+            root = newNode;
+        else behaviour.addToHeap(root, newNode);
+        count++;
+        return true;
+    }
+
+    public Iterator iterator() {
+        return new InOrderHeapIterator(root);
+    }
+
+    public int size() {
+        return count;
+    }
+
+    public Object[] toArray() {
+        Object[] nodes = new Object[size()];
+        Iterator heapIterator = iterator();
+        for (int i = 0; i < size(); i++) {
+            nodes[i] = heapIterator.next();
+        }
+        return nodes;
+    }
+
+    public String toString() {
+        ArrayList<String> nodes = new ArrayList<String>();
+        Iterator heapIterator = iterator();
+        while (heapIterator.hasNext())
+            nodes.add((String) heapIterator.next());
+        return nodes.toString();
+    }
+}
